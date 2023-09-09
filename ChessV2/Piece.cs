@@ -94,6 +94,22 @@ namespace ChessV2
 
     public class Pon : Piece
     {
-
+        public override List<Move> GetAllMoves(int row, int column)
+        {
+            List<Move> AllMoves = new List<Move>();
+            if (Color == Color.White)
+            {
+                AllMoves.Add(new Move(new Square(row,column),new Square(row+1,column)));
+                if(column-1 >= 0) { AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column - 1))); }
+                if(column+1 <= 7) { AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column + 1))); }
+            }
+            else
+            {
+                AllMoves.Add(new Move(new Square(row, column), new Square(row - 1, column)));
+                if (column - 1 >= 0) { AllMoves.Add(new Move(new Square(row, column), new Square(row - 1, column - 1))); }
+                if (column + 1 <= 7) { AllMoves.Add(new Move(new Square(row, column), new Square(row - 1, column + 1))); }
+            }
+            return AllMoves;
+        }
     }
 }
