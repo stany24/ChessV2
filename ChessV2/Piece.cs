@@ -22,6 +22,30 @@ namespace ChessV2
         public List<Move> GetLegalMoves() { return new List<Move>(); }
     }
 
+    public class SlidingPiece : Piece
+    {
+        public List<Move> GetAllRockMoves(int row, int column)
+        {
+            List<Move> AllMoves = new List<Move>();
+            for (int i = row + 1; i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(i, column))); }
+            for (int i = row - 1; i >= 0; i--) { AllMoves.Add(new Move(new Square(row, column), new Square(i, column))); }
+            for (int i = column + 1; i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row, i))); }
+            for (int i = column - 1; i >= 0; i--) { AllMoves.Add(new Move(new Square(row, column), new Square(row, i))); }
+            return AllMoves;
+        }
+
+        public List<Move> GetAllBishopMoves(int row, int column)
+        {
+            List<Move> AllMoves = new List<Move>();
+            for (int i = 1; row + i <= 7 && column + i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row + i, column + i))); }
+            for (int i = 1; row + i <= 7 && column - i >= 0; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row + i, column - i))); }
+            for (int i = 1; row - i >= 0 && column + i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row - i, column + i))); }
+            for (int i = 1; row - i >= 0 && column - i >= 0; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row - i, column - i))); }
+
+            return AllMoves;
+        }
+    }
+
     public class King : Piece
     {
         public override List<Move> GetAllMoves(int row, int column)
@@ -41,21 +65,22 @@ namespace ChessV2
         }
     }
 
-    public class Queen : Piece
-    {
-
-    }
-
-    public class Rock : Piece
+    public class Queen : SlidingPiece
     {
         public override List<Move> GetAllMoves(int row, int column)
         {
-            List<Move> AllMoves = new List<Move>();
-            for(int i = row+1; i <= 7; i++){AllMoves.Add(new Move(new Square(row, column), new Square(i, column)));}
-            for (int i = row-1; i >= 0; i--){AllMoves.Add(new Move(new Square(row, column), new Square(i, column)));}
-            for (int i = column+1; i <= 7; i++){AllMoves.Add(new Move(new Square(row, column), new Square(row, i)));}
-            for (int i = column-1; i >= 0; i--){AllMoves.Add(new Move(new Square(row, column), new Square(row, i)));}
-            return AllMoves;
+            List<Move> allMoves = GetAllBishopMoves(row, column);
+            allMoves.AddRange(GetAllRockMoves(row,column));
+            return allMoves;
+
+        }
+    }
+
+    public class Rock : SlidingPiece
+    {
+        public override List<Move> GetAllMoves(int row, int column)
+        {
+            return GetAllRockMoves(row,column);
         }
     }
 
@@ -78,17 +103,11 @@ namespace ChessV2
         }
     }
 
-    public class Bishop : Piece
+    public class Bishop : SlidingPiece
     {
         public override List<Move> GetAllMoves(int row, int column)
         {
-            List<Move> AllMoves = new List<Move>();
-            for(int i = 1; row+i <=7 && column+i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row+i, column+i))); }
-            for(int i = 1; row+i <=7 && column - i >= 0; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row+i, column-i))); }
-            for(int i = 1; row - i >= 0 && column+i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row-i, column+i))); }
-            for(int i = 1; row-i >=0 && column-i >= 0; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row-i, column-i))); }
-
-            return AllMoves;
+            return GetAllBishopMoves(row, column);
         }
     }
 
