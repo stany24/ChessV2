@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ChessV2
+﻿namespace ChessV2
 {
     public static class Board
     {
@@ -26,10 +20,10 @@ namespace ChessV2
 
     public class Move
     {
-        public Square Start {  get; set; }
-        public Square End {  get; set; }
+        public Square Start { get; set; }
+        public Square End { get; set; }
 
-        public Move(Square start,Square end)
+        public Move(Square start, Square end)
         {
             Start = start;
             End = end;
