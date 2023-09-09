@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace ChessV2
 {
@@ -9,7 +10,11 @@ namespace ChessV2
 
     public class Square :Button
     {
-        public Piece Piece { get; set; }
+        private Piece piece;
+        public Piece Piece { get { return piece; } set {
+                piece = value;
+                BackgroundImage = piece.GetImage();
+            } }
         public int Row { get; set; }
         public int Column { get; set; }
 

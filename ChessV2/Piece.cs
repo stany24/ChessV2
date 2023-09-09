@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace ChessV2
 {
-    public class Piece
+    public abstract class Piece
     {
         public Color Color { get; set; }
 
@@ -49,6 +49,7 @@ namespace ChessV2
 
     public class King : Piece
     {
+        public King(Color color) { Color = color; }
         public override List<Move> GetAllMoves(int row, int column)
         {
             List<Move> AllMoves = new List<Move>
@@ -74,6 +75,7 @@ namespace ChessV2
 
     public class Queen : SlidingPiece
     {
+        public Queen(Color color) { Color = color; }
         public override List<Move> GetAllMoves(int row, int column)
         {
             List<Move> allMoves = GetAllBishopMoves(row, column);
@@ -90,6 +92,7 @@ namespace ChessV2
 
     public class Rock : SlidingPiece
     {
+        public Rock(Color color) { Color = color; }
         public override List<Move> GetAllMoves(int row, int column)
         {
             return GetAllRockMoves(row, column);
@@ -104,6 +107,7 @@ namespace ChessV2
 
     public class Knight : Piece
     {
+        public Knight(Color color) { Color = color; }
         public override List<Move> GetAllMoves(int row, int column)
         {
             List<Move> AllMoves = new List<Move>
@@ -129,6 +133,7 @@ namespace ChessV2
 
     public class Bishop : SlidingPiece
     {
+        public Bishop(Color color) { Color = color; }
         public override List<Move> GetAllMoves(int row, int column)
         {
             return GetAllBishopMoves(row, column);
@@ -143,6 +148,7 @@ namespace ChessV2
 
     public class Pon : Piece
     {
+        public Pon(Color color) { Color = color; }
         public override List<Move> GetAllMoves(int row, int column)
         {
             List<Move> AllMoves = new List<Move>();

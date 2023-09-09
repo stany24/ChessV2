@@ -24,11 +24,13 @@ namespace ChessV2
                     Board.squares[i,j] = new Square(i, j);
                     Square square = new Square(i, j)
                     {
-                        BackColor = Color.White,
+                        BackgroundImageLayout = ImageLayout.Stretch,
                         Size = new Size(SquareSize, SquareSize),
-                        Location = new Point(i*SquareSize+offset,StartPosY - j*SquareSize),
+                        Location = new Point(j*SquareSize+offset,StartPosY - i*SquareSize),
                         Text = $"{i}/{j}"
                     };
+                    if ((i + j) % 2 == 0) { square.BackColor = Color.White; }
+                    else {square.BackColor = Color.Gray; }
                     Controls.Add(square);
                     Board.squares[i,j] = square;
                 }
@@ -37,7 +39,26 @@ namespace ChessV2
 
         private void PlaceDefaultPieces()
         {
-
+            //Pon
+            for (int i = 0; i < 8; i++) {
+                Board.squares[1, i].Piece = new Pon(Color.White); }
+            for (int i = 0; i < 8; i++) {
+                Board.squares[6, i].Piece = new Pon(Color.Black); }
+            //Rock
+            Board.squares[0,0].Piece = new Rock(Color.White);
+            Board.squares[0,7].Piece = new Rock(Color.White);
+            Board.squares[7,0].Piece = new Rock(Color.Black);
+            Board.squares[7,7].Piece = new Rock(Color.Black);
+            //Knigth
+            Board.squares[0, 1].Piece = new Knight(Color.White);
+            Board.squares[0, 6].Piece = new Knight(Color.White);
+            Board.squares[7, 1].Piece = new Knight(Color.Black);
+            Board.squares[7, 6].Piece = new Knight(Color.Black);
+            //Bishop
+            Board.squares[0, 2].Piece = new Bishop(Color.White);
+            Board.squares[0, 5].Piece = new Bishop(Color.White);
+            Board.squares[7, 2].Piece = new Bishop(Color.Black);
+            Board.squares[7, 5].Piece = new Bishop(Color.Black);
         }
     }
 }

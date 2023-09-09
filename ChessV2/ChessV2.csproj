@@ -56,6 +56,9 @@
     <Compile Include="Piece.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -64,6 +67,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -77,6 +81,42 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlackPon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlackKnight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlackBishop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlackRock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlackQueen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlackKing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhitePon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhiteKnight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhiteBishop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhiteRock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhiteQueen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhiteKing.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
