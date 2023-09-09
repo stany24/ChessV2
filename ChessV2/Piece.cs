@@ -14,8 +14,8 @@ namespace ChessV2
             List<Move> PossibleMoves = new List<Move>();
             foreach (var move in allmoves)
             {
-                if (Board.squares[move.End.Row][move.End.Column].Piece == null) { PossibleMoves.Add(move); continue; }
-                if (Board.squares[move.End.Row][move.End.Column].Piece.Color != Color) { PossibleMoves.Add(move); }
+                if (Board.squares[move.End.Row,move.End.Column].Piece == null) { PossibleMoves.Add(move); continue; }
+                if (Board.squares[move.End.Row,move.End.Column].Piece.Color != Color) { PossibleMoves.Add(move); }
             }
             return PossibleMoves;
         }
@@ -70,7 +70,7 @@ namespace ChessV2
         public override List<Move> GetAllMoves(int row, int column)
         {
             List<Move> allMoves = GetAllBishopMoves(row, column);
-            allMoves.AddRange(GetAllRockMoves(row,column));
+            allMoves.AddRange(GetAllRockMoves(row, column));
             return allMoves;
 
         }
@@ -80,7 +80,7 @@ namespace ChessV2
     {
         public override List<Move> GetAllMoves(int row, int column)
         {
-            return GetAllRockMoves(row,column);
+            return GetAllRockMoves(row, column);
         }
     }
 
@@ -118,9 +118,9 @@ namespace ChessV2
             List<Move> AllMoves = new List<Move>();
             if (Color == Color.White)
             {
-                AllMoves.Add(new Move(new Square(row,column),new Square(row+1,column)));
-                if(column-1 >= 0) { AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column - 1))); }
-                if(column+1 <= 7) { AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column + 1))); }
+                AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column)));
+                if (column - 1 >= 0) { AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column - 1))); }
+                if (column + 1 <= 7) { AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column + 1))); }
             }
             else
             {

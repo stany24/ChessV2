@@ -1,11 +1,13 @@
-﻿namespace ChessV2
+﻿using System.Windows.Forms;
+
+namespace ChessV2
 {
     public static class Board
     {
-        public static Square[][] squares = new Square[][] { };
+        public static Square[,] squares = new Square[8,8];
     }
 
-    public class Square
+    public class Square :Button
     {
         public Piece Piece { get; set; }
         public int Row { get; set; }
