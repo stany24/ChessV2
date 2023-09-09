@@ -29,7 +29,7 @@ namespace ChessV2
                         Location = new Point(j*SquareSize+offset,StartPosY - i*SquareSize),
                         Text = $"{i}/{j}"
                     };
-                    if ((i + j) % 2 == 0) { square.BackColor = Color.White; }
+                    if ((i + j) % 2 != 0) { square.BackColor = Color.White; }
                     else {square.BackColor = Color.Gray; }
                     Controls.Add(square);
                     Board.squares[i,j] = square;
@@ -59,6 +59,11 @@ namespace ChessV2
             Board.squares[0, 5].Piece = new Bishop(Color.White);
             Board.squares[7, 2].Piece = new Bishop(Color.Black);
             Board.squares[7, 5].Piece = new Bishop(Color.Black);
+            //Bishop
+            Board.squares[0, 3].Piece = new Queen(Color.White);
+            Board.squares[0, 4].Piece = new King(Color.White);
+            Board.squares[7, 3].Piece = new Queen(Color.Black);
+            Board.squares[7, 4].Piece = new King(Color.Black);
         }
     }
 }
