@@ -5,8 +5,9 @@ namespace ChessV2
 {
     public class Piece
     {
-        public Image Image { get; set; }
         public Color Color { get; set; }
+
+        public virtual Image GetImage() { return null; }
 
         public virtual List<Move> GetAllMoves(int row, int column) { return new List<Move>(); }
         public List<Move> GetPossibleMoves(List<Move> allmoves)
@@ -63,6 +64,12 @@ namespace ChessV2
             };
             return AllMoves;
         }
+
+        public override Image GetImage()
+        {
+            if (Color == Color.White) { return Properties.Resources.WhiteKing; }
+            else { return Properties.Resources.BlackKing; }
+        }
     }
 
     public class Queen : SlidingPiece
@@ -72,7 +79,12 @@ namespace ChessV2
             List<Move> allMoves = GetAllBishopMoves(row, column);
             allMoves.AddRange(GetAllRockMoves(row, column));
             return allMoves;
+        }
 
+        public override Image GetImage()
+        {
+            if (Color == Color.White) { return Properties.Resources.WhiteQueen; }
+            else { return Properties.Resources.BlackQueen; }
         }
     }
 
@@ -81,6 +93,12 @@ namespace ChessV2
         public override List<Move> GetAllMoves(int row, int column)
         {
             return GetAllRockMoves(row, column);
+        }
+
+        public override Image GetImage()
+        {
+            if (Color == Color.White) { return Properties.Resources.WhiteRock; }
+            else { return Properties.Resources.BlackRock; }
         }
     }
 
@@ -101,6 +119,12 @@ namespace ChessV2
             };
             return AllMoves;
         }
+
+        public override Image GetImage()
+        {
+            if (Color == Color.White) { return Properties.Resources.WhiteKnight; }
+            else { return Properties.Resources.BlackKnight; }
+        }
     }
 
     public class Bishop : SlidingPiece
@@ -108,6 +132,12 @@ namespace ChessV2
         public override List<Move> GetAllMoves(int row, int column)
         {
             return GetAllBishopMoves(row, column);
+        }
+
+        public override Image GetImage()
+        {
+            if (Color == Color.White) { return Properties.Resources.WhiteBishop; }
+            else { return Properties.Resources.BlackBishop; }
         }
     }
 
@@ -129,6 +159,12 @@ namespace ChessV2
                 if (column + 1 <= 7) { AllMoves.Add(new Move(new Square(row, column), new Square(row - 1, column + 1))); }
             }
             return AllMoves;
+        }
+
+        public override Image GetImage()
+        {
+            if(Color == Color.White) { return Properties.Resources.WhitePon; }
+            else { return Properties.Resources.BlackPon; }
         }
     }
 }

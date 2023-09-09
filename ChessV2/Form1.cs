@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace ChessV2
 {
@@ -11,6 +12,7 @@ namespace ChessV2
         {
             InitializeComponent();
             CreateBoard();
+            PlaceDefaultPieces();
         }
 
         private void CreateBoard()
@@ -22,14 +24,20 @@ namespace ChessV2
                     Board.squares[i,j] = new Square(i, j);
                     Square square = new Square(i, j)
                     {
-                        Size = new System.Drawing.Size(SquareSize, SquareSize),
-                        Location = new System.Drawing.Point(i*SquareSize+offset,StartPosY - j*SquareSize),
+                        BackColor = Color.White,
+                        Size = new Size(SquareSize, SquareSize),
+                        Location = new Point(i*SquareSize+offset,StartPosY - j*SquareSize),
                         Text = $"{i}/{j}"
                     };
                     Controls.Add(square);
                     Board.squares[i,j] = square;
                 }
             }
+        }
+
+        private void PlaceDefaultPieces()
+        {
+
         }
     }
 }
