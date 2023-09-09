@@ -51,10 +51,10 @@ namespace ChessV2
         public override List<Move> GetAllMoves(int row, int column)
         {
             List<Move> AllMoves = new List<Move>();
-            for(int i = row; i <= 7; i++){AllMoves.Add(new Move(new Square(row, column), new Square(i, column)));}
-            for (int i = row; i >= 0; i--){AllMoves.Add(new Move(new Square(row, column), new Square(i, column)));}
-            for (int i = column; i <= 7; i++){AllMoves.Add(new Move(new Square(row, column), new Square(row, i)));}
-            for (int i = column; i >= 0; i--){AllMoves.Add(new Move(new Square(row, column), new Square(row, i)));}
+            for(int i = row+1; i <= 7; i++){AllMoves.Add(new Move(new Square(row, column), new Square(i, column)));}
+            for (int i = row-1; i >= 0; i--){AllMoves.Add(new Move(new Square(row, column), new Square(i, column)));}
+            for (int i = column+1; i <= 7; i++){AllMoves.Add(new Move(new Square(row, column), new Square(row, i)));}
+            for (int i = column-1; i >= 0; i--){AllMoves.Add(new Move(new Square(row, column), new Square(row, i)));}
             return AllMoves;
         }
     }
@@ -80,7 +80,16 @@ namespace ChessV2
 
     public class Bishop : Piece
     {
+        public override List<Move> GetAllMoves(int row, int column)
+        {
+            List<Move> AllMoves = new List<Move>();
+            for(int i = 1; row+i <=7 && column+i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row+i, column+i))); }
+            for(int i = 1; row+i <=7 && column - i >= 0; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row+i, column-i))); }
+            for(int i = 1; row - i >= 0 && column+i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row-i, column+i))); }
+            for(int i = 1; row-i >=0 && column-i >= 0; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row-i, column-i))); }
 
+            return AllMoves;
+        }
     }
 
     public class Pon : Piece
