@@ -15,8 +15,8 @@ namespace ChessV2
             List<Move> PossibleMoves = new List<Move>();
             foreach (var move in allmoves)
             {
-                if (Board.squares[move.End.Row,move.End.Column].Piece == null) { PossibleMoves.Add(move); continue; }
-                if (Board.squares[move.End.Row,move.End.Column].Piece.Color != Color) { PossibleMoves.Add(move); }
+                if (Board.squares[move.End.Row, move.End.Column].Piece == null) { PossibleMoves.Add(move); continue; }
+                if (Board.squares[move.End.Row, move.End.Column].Piece.Color != Color) { PossibleMoves.Add(move); }
             }
             return PossibleMoves;
         }
@@ -169,7 +169,7 @@ namespace ChessV2
 
         public override Image GetImage()
         {
-            if(Color == Color.White) { return Properties.Resources.WhitePon; }
+            if (Color == Color.White) { return Properties.Resources.WhitePon; }
             else { return Properties.Resources.BlackPon; }
         }
     }

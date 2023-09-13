@@ -1,20 +1,27 @@
 ﻿using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace ChessV2
 {
     public static class Board
     {
-        public static Square[,] squares = new Square[8,8];
+        public static Square[,] squares = new Square[8, 8];
     }
 
-    public class Square :Button
+    public class Square : Button
     {
         private Piece piece;
-        public Piece Piece { get { return piece; } set {
+        public Piece Piece
+        {
+            get { return piece; }
+            set
+            {
                 piece = value;
+                if(value == null){
+                    BackgroundImage = null;
+                    return;}
                 BackgroundImage = piece.GetImage();
-            } }
+            }
+        }
         public int Row { get; set; }
         public int Column { get; set; }
 
@@ -34,6 +41,17 @@ namespace ChessV2
         {
             Start = start;
             End = end;
+        }
+    }
+
+    public static class MovePlayer
+    {
+        public static void PlayMove(Move move)
+        {
+            Piece MovingPiece = Board.squares[move.Start.Row, move.Start.Column].Piece;
+            Board.squares[move.Start.Row, move.Start.Column].Piece = null;
+            Board.squares[move.End.Row, move.End.Column].Piece = MovingPiece;
+
         }
     }
 }

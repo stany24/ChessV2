@@ -13,26 +13,27 @@ namespace ChessV2
             InitializeComponent();
             CreateBoard();
             PlaceDefaultPieces();
+            MovePlayer.PlayMove(new Move(new Square(1,1),new Square(4,4)));
         }
 
         private void CreateBoard()
         {
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    Board.squares[i,j] = new Square(i, j);
+                    Board.squares[i, j] = new Square(i, j);
                     Square square = new Square(i, j)
                     {
                         BackgroundImageLayout = ImageLayout.Stretch,
                         Size = new Size(SquareSize, SquareSize),
-                        Location = new Point(j*SquareSize+offset,StartPosY - i*SquareSize),
+                        Location = new Point(j * SquareSize + offset, StartPosY - i * SquareSize),
                         Text = $"{i}/{j}"
                     };
                     if ((i + j) % 2 != 0) { square.BackColor = Color.White; }
-                    else {square.BackColor = Color.Gray; }
+                    else { square.BackColor = Color.Gray; }
                     Controls.Add(square);
-                    Board.squares[i,j] = square;
+                    Board.squares[i, j] = square;
                 }
             }
         }
@@ -40,15 +41,19 @@ namespace ChessV2
         private void PlaceDefaultPieces()
         {
             //Pon
-            for (int i = 0; i < 8; i++) {
-                Board.squares[1, i].Piece = new Pon(Color.White); }
-            for (int i = 0; i < 8; i++) {
-                Board.squares[6, i].Piece = new Pon(Color.Black); }
+            for (int i = 0; i < 8; i++)
+            {
+                Board.squares[1, i].Piece = new Pon(Color.White);
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                Board.squares[6, i].Piece = new Pon(Color.Black);
+            }
             //Rock
-            Board.squares[0,0].Piece = new Rock(Color.White);
-            Board.squares[0,7].Piece = new Rock(Color.White);
-            Board.squares[7,0].Piece = new Rock(Color.Black);
-            Board.squares[7,7].Piece = new Rock(Color.Black);
+            Board.squares[0, 0].Piece = new Rock(Color.White);
+            Board.squares[0, 7].Piece = new Rock(Color.White);
+            Board.squares[7, 0].Piece = new Rock(Color.Black);
+            Board.squares[7, 7].Piece = new Rock(Color.Black);
             //Knigth
             Board.squares[0, 1].Piece = new Knight(Color.White);
             Board.squares[0, 6].Piece = new Knight(Color.White);
