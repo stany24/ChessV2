@@ -20,7 +20,7 @@ namespace ChessV2
             }
             return PossibleMoves;
         }
-        public List<Move> GetLegalMoves() { return new List<Move>(); }
+        public List<Move> GetLegalMoves(int row, int column) { return GetPossibleMoves(GetAllMoves(row, column)); }
     }
 
     public class SlidingPiece : Piece

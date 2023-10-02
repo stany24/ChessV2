@@ -51,7 +51,20 @@ namespace ChessV2
             Piece MovingPiece = Board.squares[move.Start.Row, move.Start.Column].Piece;
             Board.squares[move.Start.Row, move.Start.Column].Piece = null;
             Board.squares[move.End.Row, move.End.Column].Piece = MovingPiece;
+        }
 
+        public static void PlayMove(Square Start, Square End)
+        {
+            Piece MovingPiece = Board.squares[Start.Row, Start.Column].Piece;
+            Board.squares[Start.Row, Start.Column].Piece = null;
+            Board.squares[End.Row, End.Column].Piece = MovingPiece;
+        }
+
+        public static void PlayMove(int startRow,int startColumn,int endRow,int endColumn)
+        {
+            Piece MovingPiece = Board.squares[startRow, startColumn].Piece;
+            Board.squares[startRow, startColumn].Piece = null;
+            Board.squares[endRow, endColumn].Piece = MovingPiece;
         }
     }
 }

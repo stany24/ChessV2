@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ChessV2
@@ -8,12 +10,16 @@ namespace ChessV2
         private const int SquareSize = 50;
         private const int StartPosY = SquareSize * 7 + offset;
         private const int offset = 30;
+        private Color ColorToMove = Color.White;
+        private Square StartSquare = null;
         public Form1()
         {
             InitializeComponent();
             CreateBoard();
             PlaceDefaultPieces();
-            MovePlayer.PlayMove(new Move(new Square(1,1),new Square(4,4)));
+            //MovePlayer.PlayMove(new Move(new Square(1,0),new Square(3,0)));
+            //MovePlayer.PlayMove(new Move(new Square(0,0),new Square(2,0)));
+            //MovePlayer.PlayMove(new Move(new Square(2,0),new Square(2,5)));
         }
 
         private void CreateBoard()
@@ -22,7 +28,6 @@ namespace ChessV2
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    Board.squares[i, j] = new Square(i, j);
                     Square square = new Square(i, j)
                     {
                         BackgroundImageLayout = ImageLayout.Stretch,
@@ -30,6 +35,7 @@ namespace ChessV2
                         Location = new Point(j * SquareSize + offset, StartPosY - i * SquareSize),
                         Text = $"{i}/{j}"
                     };
+                    square.Click += new EventHandler(OnClick);
                     if ((i + j) % 2 != 0) { square.BackColor = Color.White; }
                     else { square.BackColor = Color.Gray; }
                     Controls.Add(square);
@@ -38,17 +44,25 @@ namespace ChessV2
             }
         }
 
+        private void OnClick(object sender, EventArgs e)
+        {
+            Square ClickedSquare = sender as Square;
+            if(StartSquare != null)
+            {
+                if(ClickedSquare.Piece == null) { MovePlayer.PlayMove(StartSquare, ClickedSquare);return; }
+                if(ClickedSquare.Piece.Color != ColorToMove) { MovePlayer.PlayMove(StartSquare, ClickedSquare);return; }
+            }
+            if(ClickedSquare.Piece.Color == ColorToMove)
+            {
+                List<Move> moves = ClickedSquare.Piece.GetLegalMoves(ClickedSquare.Row,ClickedSquare.Column);
+            }
+        }
+
         private void PlaceDefaultPieces()
         {
             //Pon
-            for (int i = 0; i < 8; i++)
-            {
-                Board.squares[1, i].Piece = new Pon(Color.White);
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                Board.squares[6, i].Piece = new Pon(Color.Black);
-            }
+            for (int i = 0; i < 8; i++){Board.squares[1, i].Piece = new Pon(Color.White);}
+            for (int i = 0; i < 8; i++){Board.squares[6, i].Piece = new Pon(Color.Black);}
             //Rock
             Board.squares[0, 0].Piece = new Rock(Color.White);
             Board.squares[0, 7].Piece = new Rock(Color.White);
