@@ -52,6 +52,15 @@ namespace ChessV2
         {
             return "from "+ Start + " to " + End;
         }
+
+        public bool IsSameMove(Move otherMove)
+        {
+            if (End.Column != otherMove.End.Column) { return false; }
+            if (End.Column != otherMove.End.Column) { return false; }
+            if (Start.Row != otherMove.Start.Row) { return false; }
+            if (Start.Column != otherMove.Start.Column) { return false; }
+            return true;
+        }
     }
 
     public static class MovePlayer

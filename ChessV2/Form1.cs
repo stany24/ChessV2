@@ -10,16 +10,13 @@ namespace ChessV2
         private const int SquareSize = 50;
         private const int StartPosY = SquareSize * 7 + offset;
         private const int offset = 30;
-        private Color ColorToMove = Color.Black;
+        private Color ColorToMove = Color.White;
         private Square StartSquare = null;
         public Form1()
         {
             InitializeComponent();
             CreateBoard();
             PlaceDefaultPieces();
-            //MovePlayer.PlayMove(new Move(new Square(1,0),new Square(3,0)));
-            //MovePlayer.PlayMove(new Move(new Square(0,0),new Square(2,0)));
-            //MovePlayer.PlayMove(new Move(new Square(2,0),new Square(2,5)));
         }
 
         private void CreateBoard()
@@ -56,6 +53,12 @@ namespace ChessV2
             }
         }
 
+        public void ChangeColorToMove()
+        {
+            if (ColorToMove == Color.White) { ColorToMove = Color.Black; }
+            else { ColorToMove = Color.White; }
+        }
+
         private void OnClick(object sender, EventArgs e)
         {
             Square ClickedSquare = sender as Square;
@@ -70,22 +73,33 @@ namespace ChessV2
                 {
                     Board.squares[movesToShow[i].End.Row, movesToShow[i].End.Column].BackColor = Color.Yellow;
                 }
+                StartSquare = ClickedSquare;
                 return;
             }
             //Change the selected piece
-            if(ClickedSquare.Piece.Color == ColorToMove)
+            if(ClickedSquare.Piece != null)
             {
-                StartSquare = null;
-                OnClick(sender, e);
-                return;
+                if (ClickedSquare.Piece.Color == ColorToMove)
+                {
+                    StartSquare = null;
+                    OnClick(sender, e);
+                    return;
+                }
             }
             //Play the move if legal
             List<Move> PossibleMoves = StartSquare.Piece.GetLegalMoves(StartSquare.Row,StartSquare.Column);
             Move WantedMove = new Move(StartSquare, ClickedSquare);
             for(int i = 0; i < PossibleMoves.Count; i++)
             {
-                if(WantedMove == PossibleMoves[i]) { MovePlayer.PlayMove(WantedMove);StartSquare = null;return; }
+                if (WantedMove.IsSameMove(PossibleMoves[i])) {
+                    MovePlayer.PlayMove(WantedMove);
+                    StartSquare = null;
+                    ChangeColorToMove();
+                    return;
+                }
             }
+            //The move was not legal
+            StartSquare = null;
 
         }
 
