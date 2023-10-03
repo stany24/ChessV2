@@ -12,12 +12,18 @@ namespace ChessV2
         public virtual List<Move> GetAllMoves(int row, int column) { return new List<Move>(); }
         public List<Move> GetPossibleMoves(List<Move> allmoves)
         {
+            for (int i = 0; i < allmoves.Count; i++)
+            {
+                if (allmoves[i].End.Column < 0 || allmoves[i].End.Row < 0 || allmoves[i].End.Column > 7 || allmoves[i].End.Row > 7) { allmoves.Remove(allmoves[i]); i--; }
+            }
+
             List<Move> PossibleMoves = new List<Move>();
             foreach (var move in allmoves)
             {
                 if (Board.squares[move.End.Row, move.End.Column].Piece == null) { PossibleMoves.Add(move); continue; }
                 if (Board.squares[move.End.Row, move.End.Column].Piece.Color != Color) { PossibleMoves.Add(move); }
             }
+            
             return PossibleMoves;
         }
         public List<Move> GetLegalMoves(int row, int column) { return GetPossibleMoves(GetAllMoves(row, column)); }
@@ -28,21 +34,63 @@ namespace ChessV2
         public List<Move> GetAllRockMoves(int row, int column)
         {
             List<Move> AllMoves = new List<Move>();
-            for (int i = row + 1; i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(i, column))); }
-            for (int i = row - 1; i >= 0; i--) { AllMoves.Add(new Move(new Square(row, column), new Square(i, column))); }
-            for (int i = column + 1; i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row, i))); }
-            for (int i = column - 1; i >= 0; i--) { AllMoves.Add(new Move(new Square(row, column), new Square(row, i))); }
+            Square start = new Square(row, column);
+            for (int i = row + 1; i <= 7; i++)
+            {
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(i, column)));continue; }
+                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(i, column))); }
+                break;
+            }
+            for (int i = row - 1; i >= 0; i--)
+            {
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(i, column))); continue; }
+                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(i, column))); }
+                break;
+            }
+            for (int i = column + 1; i <= 7; i++)
+            {
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row, i))); continue; }
+                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move( start, new Square(row, i))); }
+                break;
+            }
+            for (int i = column - 1; i >= 0; i--)
+            {
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row, i))); continue; }
+                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row, i))); }
+                break;
+            }
             return AllMoves;
         }
 
         public List<Move> GetAllBishopMoves(int row, int column)
         {
             List<Move> AllMoves = new List<Move>();
-            for (int i = 1; row + i <= 7 && column + i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row + i, column + i))); }
-            for (int i = 1; row + i <= 7 && column - i >= 0; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row + i, column - i))); }
-            for (int i = 1; row - i >= 0 && column + i <= 7; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row - i, column + i))); }
-            for (int i = 1; row - i >= 0 && column - i >= 0; i++) { AllMoves.Add(new Move(new Square(row, column), new Square(row - i, column - i))); }
+            Square start = new Square(row, column);
 
+            for (int i = 1; row + i <= 7 && column + i <= 7; i++)
+            {
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row + i, column + i))); continue; }
+                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + i, column + i))); }
+                break;
+            }
+            for (int i = 1; row + i <= 7 && column - i >= 0; i++)
+            {
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row + i, column - i))); continue; }
+                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + i, column - i))); }
+                break;
+            }
+            for (int i = 1; row - i >= 0 && column + i <= 7; i++)
+            {
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row - i, column + i))); continue; }
+                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row - i, column + i))); }
+                break;
+            }
+            for (int i = 1; row - i >= 0 && column - i >= 0; i++)
+            {
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row - i, column - i))); continue; }
+                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row - i, column - i))); }
+                break;
+            }
             return AllMoves;
         }
     }
@@ -63,10 +111,6 @@ namespace ChessV2
                 new Move(new Square(row, column), new Square(row, column + 1)),
                 new Move(new Square(row, column), new Square(row, column - 1))
             };
-            for (int i = 0; i < AllMoves.Count; i++)
-            {
-                if (AllMoves[i].End.Column < 0 || AllMoves[i].End.Row < 0 || AllMoves[i].End.Column > 7 || AllMoves[i].End.Row > 7) { AllMoves.Remove(AllMoves[i]);i--; }
-            }
             return AllMoves;
         }
 
@@ -125,10 +169,6 @@ namespace ChessV2
                 new Move(new Square(row, column), new Square(row-1, column-2)),
                 new Move(new Square(row, column), new Square(row+1, column-2))
             };
-            for (int i = 0; i < AllMoves.Count; i++)
-            {
-                if (AllMoves[i].End.Column < 0 || AllMoves[i].End.Row < 0 || AllMoves[i].End.Column > 7 || AllMoves[i].End.Row > 7) { AllMoves.Remove(AllMoves[i]); i--; }
-            }
             return AllMoves;
         }
 

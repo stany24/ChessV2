@@ -10,7 +10,7 @@ namespace ChessV2
         private const int SquareSize = 50;
         private const int StartPosY = SquareSize * 7 + offset;
         private const int offset = 30;
-        private Color ColorToMove = Color.White;
+        private Color ColorToMove = Color.Black;
         private Square StartSquare = null;
         public Form1()
         {
@@ -44,9 +44,22 @@ namespace ChessV2
             }
         }
 
+        public void ResetColor()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if ((i + j) % 2 != 0) { Board.squares[i, j].BackColor = Color.White; }
+                    else { Board.squares[i, j].BackColor = Color.Gray; }
+                }
+            }
+        }
+
         private void OnClick(object sender, EventArgs e)
         {
             Square ClickedSquare = sender as Square;
+            ResetColor();
             //No piece was selected before
             if (StartSquare == null)
             {
@@ -71,7 +84,7 @@ namespace ChessV2
             Move WantedMove = new Move(StartSquare, ClickedSquare);
             for(int i = 0; i < PossibleMoves.Count; i++)
             {
-                if(WantedMove == PossibleMoves[i]) { MovePlayer.PlayMove(WantedMove); }
+                if(WantedMove == PossibleMoves[i]) { MovePlayer.PlayMove(WantedMove);StartSquare = null;return; }
             }
 
         }
