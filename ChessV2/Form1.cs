@@ -47,15 +47,33 @@ namespace ChessV2
         private void OnClick(object sender, EventArgs e)
         {
             Square ClickedSquare = sender as Square;
-            if(StartSquare != null)
+            //No piece was selected before
+            if (StartSquare == null)
             {
-                if(ClickedSquare.Piece == null) { MovePlayer.PlayMove(StartSquare, ClickedSquare);return; }
-                if(ClickedSquare.Piece.Color != ColorToMove) { MovePlayer.PlayMove(StartSquare, ClickedSquare);return; }
+                if (ClickedSquare.Piece == null) { return; }
+                if (ClickedSquare.Piece.Color != ColorToMove) { return; }
+                List<Move> movesToShow = ClickedSquare.Piece.GetLegalMoves(ClickedSquare.Row, ClickedSquare.Column);
+                for (int i = 0;i<movesToShow.Count;i++ )
+                {
+                    Board.squares[movesToShow[i].End.Row, movesToShow[i].End.Column].BackColor = Color.Yellow;
+                }
+                return;
             }
+            //Change the selected piece
             if(ClickedSquare.Piece.Color == ColorToMove)
             {
-                List<Move> moves = ClickedSquare.Piece.GetLegalMoves(ClickedSquare.Row,ClickedSquare.Column);
+                StartSquare = null;
+                OnClick(sender, e);
+                return;
             }
+            //Play the move if legal
+            List<Move> PossibleMoves = StartSquare.Piece.GetLegalMoves(StartSquare.Row,StartSquare.Column);
+            Move WantedMove = new Move(StartSquare, ClickedSquare);
+            for(int i = 0; i < PossibleMoves.Count; i++)
+            {
+                if(WantedMove == PossibleMoves[i]) { MovePlayer.PlayMove(WantedMove); }
+            }
+
         }
 
         private void PlaceDefaultPieces()
