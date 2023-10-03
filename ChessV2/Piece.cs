@@ -63,6 +63,10 @@ namespace ChessV2
                 new Move(new Square(row, column), new Square(row, column + 1)),
                 new Move(new Square(row, column), new Square(row, column - 1))
             };
+            for (int i = 0; i < AllMoves.Count; i++)
+            {
+                if (AllMoves[i].End.Column < 0 || AllMoves[i].End.Row < 0 || AllMoves[i].End.Column > 7 || AllMoves[i].End.Row > 7) { AllMoves.Remove(AllMoves[i]);i--; }
+            }
             return AllMoves;
         }
 
@@ -121,6 +125,10 @@ namespace ChessV2
                 new Move(new Square(row, column), new Square(row-1, column-2)),
                 new Move(new Square(row, column), new Square(row+1, column-2))
             };
+            for (int i = 0; i < AllMoves.Count; i++)
+            {
+                if (AllMoves[i].End.Column < 0 || AllMoves[i].End.Row < 0 || AllMoves[i].End.Column > 7 || AllMoves[i].End.Row > 7) { AllMoves.Remove(AllMoves[i]); i--; }
+            }
             return AllMoves;
         }
 

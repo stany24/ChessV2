@@ -30,6 +30,11 @@ namespace ChessV2
             Row = row;
             Column = column;
         }
+
+        public override string ToString()
+        {
+            return Column + "/" + Row;
+        }
     }
 
     public class Move
@@ -41,6 +46,11 @@ namespace ChessV2
         {
             Start = start;
             End = end;
+        }
+
+        public override string ToString()
+        {
+            return "from "+ Start + " to " + End;
         }
     }
 
