@@ -10,23 +10,21 @@ namespace ChessV2
         public virtual Image GetImage() { return null; }
 
         public virtual List<Move> GetAllMoves(int row, int column) { return new List<Move>(); }
-        public List<Move> GetPossibleMoves(List<Move> allmoves)
-        {
-            for (int i = 0; i < allmoves.Count; i++)
-            {
-                if (allmoves[i].End.Column < 0 || allmoves[i].End.Row < 0 || allmoves[i].End.Column > 7 || allmoves[i].End.Row > 7) { allmoves.Remove(allmoves[i]); i--; }
-            }
 
+        public List<Move> RemoveImpossibleMoves(List<Move> allmoves)
+        {
             List<Move> PossibleMoves = new List<Move>();
             foreach (var move in allmoves)
             {
+                if (move.End.Row < 0 || move.End.Row > 7 || move.End.Column < 0 || move.End.Column > 7) { continue; }
                 if (Board.squares[move.End.Row, move.End.Column].Piece == null) { PossibleMoves.Add(move); continue; }
                 if (Board.squares[move.End.Row, move.End.Column].Piece.Color != Color) { PossibleMoves.Add(move); }
             }
-            
+
             return PossibleMoves;
         }
-        public List<Move> GetLegalMoves(int row, int column) { return GetPossibleMoves(GetAllMoves(row, column)); }
+
+        public List<Move> GetLegalMoves(int row, int column) { return GetAllMoves(row, column); }
     }
 
     public class SlidingPiece : Piece
@@ -37,7 +35,7 @@ namespace ChessV2
             Square start = new Square(row, column);
             for (int i = row + 1; i <= 7; i++)
             {
-                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(i, column)));continue; }
+                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(i, column))); continue; }
                 if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(i, column))); }
                 break;
             }
@@ -49,14 +47,14 @@ namespace ChessV2
             }
             for (int i = column + 1; i <= 7; i++)
             {
-                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row, i))); continue; }
-                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move( start, new Square(row, i))); }
+                if (Board.squares[row, i].Piece == null) { AllMoves.Add(new Move(start, new Square(row, i))); continue; }
+                if (Board.squares[row, i].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row, i))); }
                 break;
             }
             for (int i = column - 1; i >= 0; i--)
             {
-                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row, i))); continue; }
-                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row, i))); }
+                if (Board.squares[row, i].Piece == null) { AllMoves.Add(new Move(start, new Square(row, i))); continue; }
+                if (Board.squares[row, i].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row, i))); }
                 break;
             }
             return AllMoves;
@@ -69,26 +67,26 @@ namespace ChessV2
 
             for (int i = 1; row + i <= 7 && column + i <= 7; i++)
             {
-                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row + i, column + i))); continue; }
-                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + i, column + i))); }
+                if (Board.squares[row + i, column + i].Piece == null) { AllMoves.Add(new Move(start, new Square(row + i, column + i))); continue; }
+                if (Board.squares[row + i, column + i].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + i, column + i))); }
                 break;
             }
             for (int i = 1; row + i <= 7 && column - i >= 0; i++)
             {
-                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row + i, column - i))); continue; }
-                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + i, column - i))); }
+                if (Board.squares[row + i, column - i].Piece == null) { AllMoves.Add(new Move(start, new Square(row + i, column - i))); continue; }
+                if (Board.squares[row + i, column - i].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + i, column - i))); }
                 break;
             }
             for (int i = 1; row - i >= 0 && column + i <= 7; i++)
             {
-                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row - i, column + i))); continue; }
-                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row - i, column + i))); }
+                if (Board.squares[row - i, column + i].Piece == null) { AllMoves.Add(new Move(start, new Square(row - i, column + i))); continue; }
+                if (Board.squares[row - i, column + i].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row - i, column + i))); }
                 break;
             }
             for (int i = 1; row - i >= 0 && column - i >= 0; i++)
             {
-                if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row - i, column - i))); continue; }
-                if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row - i, column - i))); }
+                if (Board.squares[row - i, column - i].Piece == null) { AllMoves.Add(new Move(start, new Square(row - i, column - i))); continue; }
+                if (Board.squares[row - i, column - i].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row - i, column - i))); }
                 break;
             }
             return AllMoves;
@@ -111,6 +109,7 @@ namespace ChessV2
                 new Move(new Square(row, column), new Square(row, column + 1)),
                 new Move(new Square(row, column), new Square(row, column - 1))
             };
+            AllMoves = RemoveImpossibleMoves(AllMoves);
             return AllMoves;
         }
 
@@ -169,6 +168,7 @@ namespace ChessV2
                 new Move(new Square(row, column), new Square(row-1, column-2)),
                 new Move(new Square(row, column), new Square(row+1, column-2))
             };
+            AllMoves = RemoveImpossibleMoves(AllMoves);
             return AllMoves;
         }
 
@@ -208,9 +208,9 @@ namespace ChessV2
             else { increment = -1; startrow = 6; }
 
             if (Board.squares[row + increment, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row + increment, column))); }
-            if (column - 1 >= 0 && Board.squares[row+increment, column - 1].Piece != null && Board.squares[row + increment,column-1].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + increment, column - 1))); }
-            if (column + 1 <= 7 && Board.squares[row+increment, column + 1].Piece != null && Board.squares[row+increment, column + 1].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + increment, column + 1))); }
-            if (Board.squares[row + increment, column].Piece == null && Board.squares[row + 2*increment, column].Piece == null && row == startrow) { AllMoves.Add(new Move(start, new Square(row + 2*increment, column))); }
+            if (column - 1 >= 0 && Board.squares[row + increment, column - 1].Piece != null && Board.squares[row + increment, column - 1].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + increment, column - 1))); }
+            if (column + 1 <= 7 && Board.squares[row + increment, column + 1].Piece != null && Board.squares[row + increment, column + 1].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + increment, column + 1))); }
+            if (Board.squares[row + increment, column].Piece == null && Board.squares[row + 2 * increment, column].Piece == null && row == startrow) { AllMoves.Add(new Move(start, new Square(row + 2 * increment, column))); }
 
             return AllMoves;
         }

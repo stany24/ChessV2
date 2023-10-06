@@ -69,7 +69,7 @@ namespace ChessV2
                 if (ClickedSquare.Piece == null) { return; }
                 if (ClickedSquare.Piece.Color != ColorToMove) { return; }
                 List<Move> movesToShow = ClickedSquare.Piece.GetLegalMoves(ClickedSquare.Row, ClickedSquare.Column);
-                for (int i = 0;i<movesToShow.Count;i++ )
+                for (int i = 0; i < movesToShow.Count; i++)
                 {
                     Board.squares[movesToShow[i].End.Row, movesToShow[i].End.Column].BackColor = Color.Yellow;
                 }
@@ -77,7 +77,7 @@ namespace ChessV2
                 return;
             }
             //Change the selected piece
-            if(ClickedSquare.Piece != null)
+            if (ClickedSquare.Piece != null)
             {
                 if (ClickedSquare.Piece.Color == ColorToMove)
                 {
@@ -87,11 +87,12 @@ namespace ChessV2
                 }
             }
             //Play the move if legal
-            List<Move> PossibleMoves = StartSquare.Piece.GetLegalMoves(StartSquare.Row,StartSquare.Column);
+            List<Move> PossibleMoves = StartSquare.Piece.GetLegalMoves(StartSquare.Row, StartSquare.Column);
             Move WantedMove = new Move(StartSquare, ClickedSquare);
-            for(int i = 0; i < PossibleMoves.Count; i++)
+            for (int i = 0; i < PossibleMoves.Count; i++)
             {
-                if (WantedMove.IsSameMove(PossibleMoves[i])) {
+                if (WantedMove.IsSameMove(PossibleMoves[i]))
+                {
                     MovePlayer.PlayMove(WantedMove);
                     StartSquare = null;
                     ChangeColorToMove();
@@ -106,8 +107,8 @@ namespace ChessV2
         private void PlaceDefaultPieces()
         {
             //Pon
-            for (int i = 0; i < 8; i++){Board.squares[1, i].Piece = new Pon(Color.White);}
-            for (int i = 0; i < 8; i++){Board.squares[6, i].Piece = new Pon(Color.Black);}
+            for (int i = 0; i < 8; i++) { Board.squares[1, i].Piece = new Pon(Color.White); }
+            for (int i = 0; i < 8; i++) { Board.squares[6, i].Piece = new Pon(Color.Black); }
             //Rock
             Board.squares[0, 0].Piece = new Rock(Color.White);
             Board.squares[0, 7].Piece = new Rock(Color.White);

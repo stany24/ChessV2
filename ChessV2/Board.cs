@@ -18,9 +18,11 @@ namespace ChessV2
             set
             {
                 piece = value;
-                if(value == null){
+                if (value == null)
+                {
                     BackgroundImage = null;
-                    return;}
+                    return;
+                }
                 BackgroundImage = piece.GetImage();
             }
         }
@@ -50,7 +52,7 @@ namespace ChessV2
 
         public override string ToString()
         {
-            return "from "+ Start + " to " + End;
+            return "from " + Start + " to " + End;
         }
 
         public bool IsSameMove(Move otherMove)
@@ -79,7 +81,7 @@ namespace ChessV2
             Board.squares[End.Row, End.Column].Piece = MovingPiece;
         }
 
-        public static void PlayMove(int startRow,int startColumn,int endRow,int endColumn)
+        public static void PlayMove(int startRow, int startColumn, int endRow, int endColumn)
         {
             Piece MovingPiece = Board.squares[startRow, startColumn].Piece;
             Board.squares[startRow, startColumn].Piece = null;
