@@ -20,7 +20,6 @@ namespace ChessV2
                 if (Board.squares[move.End.Row, move.End.Column].Piece == null) { PossibleMoves.Add(move); continue; }
                 if (Board.squares[move.End.Row, move.End.Column].Piece.Color != Color) { PossibleMoves.Add(move); }
             }
-
             return PossibleMoves;
         }
 
@@ -33,26 +32,22 @@ namespace ChessV2
         {
             List<Move> AllMoves = new List<Move>();
             Square start = new Square(row, column);
-            for (int i = row + 1; i <= 7; i++)
-            {
+            for (int i = row + 1; i <= 7; i++){
                 if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(i, column))); continue; }
                 if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(i, column))); }
                 break;
             }
-            for (int i = row - 1; i >= 0; i--)
-            {
+            for (int i = row - 1; i >= 0; i--){
                 if (Board.squares[i, column].Piece == null) { AllMoves.Add(new Move(start, new Square(i, column))); continue; }
                 if (Board.squares[i, column].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(i, column))); }
                 break;
             }
-            for (int i = column + 1; i <= 7; i++)
-            {
+            for (int i = column + 1; i <= 7; i++){
                 if (Board.squares[row, i].Piece == null) { AllMoves.Add(new Move(start, new Square(row, i))); continue; }
                 if (Board.squares[row, i].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row, i))); }
                 break;
             }
-            for (int i = column - 1; i >= 0; i--)
-            {
+            for (int i = column - 1; i >= 0; i--){
                 if (Board.squares[row, i].Piece == null) { AllMoves.Add(new Move(start, new Square(row, i))); continue; }
                 if (Board.squares[row, i].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row, i))); }
                 break;
@@ -98,16 +93,17 @@ namespace ChessV2
         public King(Color color) { Color = color; }
         public override List<Move> GetAllMoves(int row, int column)
         {
+            Square start = new Square(row, column);
             List<Move> AllMoves = new List<Move>
             {
-                new Move(new Square(row, column), new Square(row + 1, column + 1)),
-                new Move(new Square(row, column), new Square(row + 1, column - 1)),
-                new Move(new Square(row, column), new Square(row + 1, column)),
-                new Move(new Square(row, column), new Square(row - 1, column + 1)),
-                new Move(new Square(row, column), new Square(row - 1, column - 1)),
-                new Move(new Square(row, column), new Square(row - 1, column)),
-                new Move(new Square(row, column), new Square(row, column + 1)),
-                new Move(new Square(row, column), new Square(row, column - 1))
+                new Move(start, new Square(row + 1, column + 1)),
+                new Move(start, new Square(row + 1, column - 1)),
+                new Move(start, new Square(row + 1, column)),
+                new Move(start, new Square(row - 1, column + 1)),
+                new Move(start, new Square(row - 1, column - 1)),
+                new Move(start, new Square(row - 1, column)),
+                new Move(start, new Square(row, column + 1)),
+                new Move(start, new Square(row, column - 1))
             };
             AllMoves = RemoveImpossibleMoves(AllMoves);
             return AllMoves;
@@ -157,16 +153,17 @@ namespace ChessV2
         public Knight(Color color) { Color = color; }
         public override List<Move> GetAllMoves(int row, int column)
         {
+            Square start = new Square(row, column);
             List<Move> AllMoves = new List<Move>
             {
-                new Move(new Square(row, column), new Square(row+2, column-1)),
-                new Move(new Square(row, column), new Square(row+2, column+1)),
-                new Move(new Square(row, column), new Square(row-2, column-1)),
-                new Move(new Square(row, column), new Square(row-2, column+1)),
-                new Move(new Square(row, column), new Square(row-1, column+2)),
-                new Move(new Square(row, column), new Square(row+1, column+2)),
-                new Move(new Square(row, column), new Square(row-1, column-2)),
-                new Move(new Square(row, column), new Square(row+1, column-2))
+                new Move(start, new Square(row+2, column-1)),
+                new Move(start, new Square(row+2, column+1)),
+                new Move(start, new Square(row-2, column-1)),
+                new Move(start, new Square(row-2, column+1)),
+                new Move(start, new Square(row-1, column+2)),
+                new Move(start, new Square(row+1, column+2)),
+                new Move(start, new Square(row-1, column-2)),
+                new Move(start, new Square(row+1, column-2))
             };
             AllMoves = RemoveImpossibleMoves(AllMoves);
             return AllMoves;
@@ -202,8 +199,7 @@ namespace ChessV2
             List<Move> AllMoves = new List<Move>();
             Square start = new Square(row, column);
 
-            int increment;
-            int startrow;
+            int increment, startrow;
             if (Color == Color.White) { increment = 1; startrow = 1; }
             else { increment = -1; startrow = 6; }
 
