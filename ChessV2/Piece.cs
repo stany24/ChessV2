@@ -200,18 +200,18 @@ namespace ChessV2
         public override List<Move> GetAllMoves(int row, int column)
         {
             List<Move> AllMoves = new List<Move>();
-            if (Color == Color.White)
-            {
-                AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column)));
-                if (column - 1 >= 0) { AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column - 1))); }
-                if (column + 1 <= 7) { AllMoves.Add(new Move(new Square(row, column), new Square(row + 1, column + 1))); }
-            }
-            else
-            {
-                AllMoves.Add(new Move(new Square(row, column), new Square(row - 1, column)));
-                if (column - 1 >= 0) { AllMoves.Add(new Move(new Square(row, column), new Square(row - 1, column - 1))); }
-                if (column + 1 <= 7) { AllMoves.Add(new Move(new Square(row, column), new Square(row - 1, column + 1))); }
-            }
+            Square start = new Square(row, column);
+
+            int increment;
+            int startrow;
+            if (Color == Color.White) { increment = 1; startrow = 1; }
+            else { increment = -1; startrow = 6; }
+
+            if (Board.squares[row + increment, column].Piece == null) { AllMoves.Add(new Move(start, new Square(row + increment, column))); }
+            if (column - 1 >= 0 && Board.squares[row+increment, column - 1].Piece != null && Board.squares[row + increment,column-1].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + increment, column - 1))); }
+            if (column + 1 <= 7 && Board.squares[row+increment, column + 1].Piece != null && Board.squares[row+increment, column + 1].Piece.Color != Color) { AllMoves.Add(new Move(start, new Square(row + increment, column + 1))); }
+            if (Board.squares[row + increment, column].Piece == null && Board.squares[row + 2*increment, column].Piece == null && row == startrow) { AllMoves.Add(new Move(start, new Square(row + 2*increment, column))); }
+
             return AllMoves;
         }
 

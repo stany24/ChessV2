@@ -10,6 +10,8 @@ namespace ChessV2
     public class Square : Button
     {
         private Piece piece;
+        public int Row { get; set; }
+        public int Column { get; set; }
         public Piece Piece
         {
             get { return piece; }
@@ -22,8 +24,6 @@ namespace ChessV2
                 BackgroundImage = piece.GetImage();
             }
         }
-        public int Row { get; set; }
-        public int Column { get; set; }
 
         public Square(int row, int column)
         {
